@@ -6,6 +6,7 @@ using System.Text;
 using eShopSolution.Data.Entities;
 using eShopSolution.Data.Enums;
 using eShopSolution.Data.Configurations;
+using eShopSolution.Data.Extensions;
 
 namespace eShopSolution.Data.EF
 {
@@ -16,6 +17,7 @@ namespace eShopSolution.Data.EF
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Configure using Fluent API
             modelBuilder.ApplyConfiguration(new CartConfiguration());
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
@@ -30,6 +32,8 @@ namespace eShopSolution.Data.EF
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
+            //Data seeding
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
         public DbSet<Product> Products { get; set; }
