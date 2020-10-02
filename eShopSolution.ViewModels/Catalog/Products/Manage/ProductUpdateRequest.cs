@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace eShopSolution.Data.Entities
+namespace eShopSolution.ViewModels.Catalog.Products.Manage
 {
-    public class ProductTranslation
+    public class ProductUpdateRequest
     {
-        public int Id { set; get; }
-        public int ProductId { set; get; }
+        public int Id { get; set; }
         public string Name { set; get; }
         public string Description { set; get; }
         public string Details { set; get; }
         public string SeoDescription { set; get; }
         public string SeoTitle { set; get; }
+
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
+        public IFormFile ThumbnailImage { get; set; }
 
-        public Product Product { get; set; }
-
-        public Language Language { get; set; }
     }
 }
