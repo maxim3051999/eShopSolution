@@ -130,6 +130,7 @@ namespace eShopSolution.BackendApi.Controllers
             var result = await _manageProductService.RemoveImage(imageId);
             if (result == 0)
                 return NotFound("Cannot find product");
+
             return Ok();
         }
     }
