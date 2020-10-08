@@ -33,13 +33,12 @@ namespace eShopSolution.AdminApp.Controllers
             var sessions = HttpContext.Session.GetString("Token");
             var request = new GetUserPagingRequest()
             {
-                BearerToken = sessions,
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
             var data = await _userApiClient.GetUsersPaging(request);
-            return View(data);
+            return View(data.ResultObj);
         }
 
         [HttpGet]
@@ -48,12 +47,44 @@ namespace eShopSolution.AdminApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateRequest = new UpdateRequest()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Dob = user.Dob
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateRequest request)
+        {
+            if (!ModelState.IsValid) return View();
+            var reusult = await _userApiClient.UpdateUser(request.Id, request);
+            if (reusult.IsSuccessed) return RedirectToAction("Index", "User");
+            ModelState.AddModelError("", reusult.Message);
+            return View(request);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             if (!ModelState.IsValid) return View();
             var reusult = await _userApiClient.RegisterUser(request);
-            if (reusult) return RedirectToAction("Index", "User");
+            if (reusult.IsSuccessed) return RedirectToAction("Index", "User");
+            ModelState.AddModelError("", reusult.Message);
             return View(request);
         }
 
