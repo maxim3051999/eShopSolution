@@ -180,7 +180,9 @@ namespace eShopSolution.Application.Catalog.Products
             var pagedResult = new PagedResult<ProductViewModel>()
             {
                 items = data,
-                TotalRecord = totalRow
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize
             };
             return pagedResult;
         }
@@ -355,7 +357,9 @@ namespace eShopSolution.Application.Catalog.Products
             var pagedResult = new PagedResult<ProductViewModel>()
             {
                 items = data,
-                TotalRecord = totalRow
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize
             };
             return pagedResult;
         }
