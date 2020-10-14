@@ -37,6 +37,7 @@ namespace eShopSolution.AdminApp.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
+            ViewBag.keyword = keyword;
             var data = await _userApiClient.GetUsersPaging(request);
             return View(data.ResultObj);
         }
@@ -100,7 +101,7 @@ namespace eShopSolution.AdminApp.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Remove("Token");
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet]
