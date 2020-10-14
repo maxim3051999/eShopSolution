@@ -60,6 +60,17 @@ namespace eShopSolution.Application.System.Users
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
+        public async Task<ApiResult<bool>> Delete(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+                return new ApiErrorResult<bool>("User Không tồn tại !");
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                return new ApiErrorResult<bool>("Xoá không thành công !");
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());

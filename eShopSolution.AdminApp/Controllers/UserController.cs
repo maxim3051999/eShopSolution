@@ -102,5 +102,24 @@ namespace eShopSolution.AdminApp.Controllers
             HttpContext.Session.Remove("Token");
             return RedirectToAction("Login", "User");
         }
+
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            return View(new DeleteRequest()
+            {
+                Id = id
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteRequest request)
+        {
+            if (!ModelState.IsValid) return View();
+            var reusult = await _userApiClient.Delete(request.Id);
+            if (reusult.IsSuccessed) return RedirectToAction("Index", "User");
+            ModelState.AddModelError("", reusult.Message);
+            return View(request);
+        }
     }
 }
